@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
-#from flask_migrate import Migrate
+from flask_migrate import Migrate
+from config import DATABASE_URI
 import sys
 
 app = Flask(__name__) 
 # config the SQLAlchemy connection to the database as your own database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:tdse1985@localhost:5432/todoapp'
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app) 
 
@@ -19,10 +20,6 @@ class Todo(db.Model):
     completed = db.Column(db.Boolean, nullable=False, default=False)
     list_id = db.Column(db.Integer, db.ForeignKey('todolists.id'), nullable=False)
 
-    # for debug print object information purpose
-    def __repr__(self):
-        return f'<Todo: ID {self.id}, description {self.description}, listID {self.list_id}>'
-
 
 class TodoList(db.Model):
     __tablename__ = 'todolists'
@@ -30,11 +27,13 @@ class TodoList(db.Model):
     name = db.Column(db.String(), nullable=False)
     todos = db.relationship('Todo', backref='list', cascade='all, delete-orphan', lazy=True)
 
-    def __repr__(self):
-        return f'<TodoList: ID {self.id}, name {self.name}>'
 
 # TODO: Edit these functions to match the intended functionality of our database
 #db.create_all() # create database based on class definition
+@app.route("/")
+def welcome():
+    return render_template("home.html")
+
 @app.route('/todos/create', methods=['POST'])
 def create_todo():
     # description = request.form.get('description')

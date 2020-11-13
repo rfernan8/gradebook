@@ -1,0 +1,1 @@
+DATABASE_URI = 'postgresql://postgres:@localhost:5000/gradebook'
