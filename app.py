@@ -13,21 +13,25 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 # TODO: Edit these classes (and add others) to represent entities in our ER diagram
-class Todo(db.Model):
-    __tablename__ = 'todos' # specify the table name if it is different from class name
-    id = db.Column(db.Integer, primary_key=True) # define ID 
-    description = db.Column(db.String(), nullable=False) # define description
-    completed = db.Column(db.Boolean, nullable=False, default=False)
-    list_id = db.Column(db.Integer, db.ForeignKey('todolists.id'), nullable=False)
+class student(db.Model):
+    __tablename__ = 'student' # specify the table name if it is different from class name
+    sid = db.Column(db.Integer, primary_key=True) # define ID 
+    first_name = db.Column(db.String(), nullable=False) # define description
+    last_name = db.Column(db.String(), nullable=False, default=False)
+    
 
 
-class TodoList(db.Model):
-    __tablename__ = 'todolists'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), nullable=False)
-    todos = db.relationship('Todo', backref='list', cascade='all, delete-orphan', lazy=True)
-
-
+class teacher(db.Model):
+    __tablename__ = 'teacher'
+    tid = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(), nullable=False)
+    
+class parent(db.Model):
+    __tablename__ = 'parent'
+    pid = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(), nullable=False)    
+    
+    
 # TODO: Edit these functions to match the intended functionality of our database
 #db.create_all() # create database based on class definition
 @app.route("/")
