@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import DATABASE_URI
 import sys
+import models
 
 app = Flask(__name__) 
 # config the SQLAlchemy connection to the database as your own database
@@ -11,56 +12,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app) 
 
 migrate = Migrate(app, db)
+    
+db.create_all()
 
-# TODO: Edit these classes (and add others) to represent entities in our ER diagram
-class student(db.Model):
-    __tablename__ = 'student' # specify the table name if it is different from class name
-    sid = db.Column(db.Integer, primary_key=True) # define ID 
-    first_name = db.Column(db.String(), nullable=False) # define description
-    last_name = db.Column(db.String(), nullable=False, default=False)
-    
-class teacher(db.Model):
-    __tablename__ = 'teacher'
-    tid = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(), nullable=False)
-    
-class parent(db.Model):
-    __tablename__ = 'parent'
-    pid = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(), nullable=False) 
-    
-class teaches(db.Model):
-    __tablename__ = 'teaches'
-    tid = db.Column(db.Integer, primary_key=True)
-    cid = db.Column(db.Integer, primary_key=True)    
-    
- class enrolled(db.Model):
-    __tablename__ = 'enrolled'
-    sid = db.Column(db.Integer, primary_key=True)
-    cid = db.Column(db.Integer, primary_key=True)    
-    
- class assignment(db.Model):
-    __tablename__ = 'enrolled'
-    cid = db.Column(db.Integer, primary_key=True)
-    aid = db.Column(db.Integer, primary_key=True)    
-    letter = db.Column(db.String(), nullable=False)
-    score = db.Column(db.Integer, nullable=False)
-    
- class class(db.Model):
-    __tablename__ = 'class'
-    cid = db.Column(db.Integer, primary_key=True)
-    tid = db.Column(db.Integer, primary_key=True)    
-    name = db.Column(db.String(), nullable=False)
- 
-class category(db.Model):
-    __tablename__ = 'category'
-    cid = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), primary_key=True)    
-    weight = db.Column(db.Weight, nullable=False)
-    
-    
 # TODO: Edit these functions to match the intended functionality of our database
-#db.create_all() # create database based on class definition
 @app.route("/")
 def welcome():
     return render_template("home.html")
