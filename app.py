@@ -20,6 +20,18 @@ db.create_all()
 def welcome():
     return render_template("home.html")
 
+@app.route("/classes", methods=['GET'])
+def list_classes():
+    return Nothing
+
+@app.route("/<class_id>/assignments", methods=['GET'])
+def list_assign(class_id):
+    return Nothing
+
+@app.route("/<class_id>/students", methods=['GET'])
+def list_students(class_id)
+    return Nothing
+
 @app.route('/todos/create', methods=['POST'])
 def create_todo():
     # description = request.form.get('description')
