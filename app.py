@@ -29,7 +29,7 @@ def list_assign(class_id):
     return Nothing
 
 @app.route("/<class_id>/students", methods=['GET'])
-def list_students(class_id)
+def list_students(class_id):
     return Nothing
 
 @app.route('/todos/create', methods=['POST'])
